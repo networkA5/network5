@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetWork A Stage 5</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom Styles */
+    #clock {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+    }
+    th {
+      background-color: red;
+      color: white;
+    }
+    .lesson-day {
+      color: green;
+      font-size: 20px; /* Increase font size for day names */
+      font-weight: bold; /* Make day names bolder */
+      border-bottom: 2px solid red; /* Thick red line below day names */
+    }
+    tbody .lesson-day ~ tr td {
+      border-top: 1px solid #000; /* Darker line between rows */
+    }
+  </style>
+</head>
+<body>
+  <div id="clock"></div>
+
+  <div class="container mt-5">
+    <h1 class="mb-4">Network A Stage 5</h1>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Time / Hall</th>
+            <th>Lesson</th>
+            <th>Teacher</th> <!-- Added teacher column -->
+          </tr>
+        </thead>
+        <tbody id="lessonTableBody">
+          <!-- Lesson schedule will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const meridiem = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds} ${meridiem}`;
+    }
+    setInterval(updateClock, 1000);
+
+    let lessons = [
+      { day: 'Sun', lessons: ['مەدەنی', 'Wireles Technology', 'English', 'Server Maintenance', 'Server Maintenance'], teachers: ['Ms. Shania', 'Ms. Lana', 'Mr. Karwan', 'Mr. Bzhar', 'Mr. Bzhar'], times: ['3:00 - Hall D10', '4:00 - Hall D10', '5:00 - Hall D10', '6:00 - Lab7', '13:00 - Lab7'] },
+      { day: 'Mon', lessons: ['English', 'Server Maintenance', 'Linux LPI', 'SQL Server', 'SQL Server'], teachers: ['Mr. Karwan', 'Mr. Bzhar', 'Ms. Binaey', 'Ms. Hanaw', 'Ms. Hanaw'], times: ['3:00 - Hall D10', '4:00 - Hall D10', '5:00 - Hall D10', '6:00 - Lab9', '7:00 - Lab9'] },
+      { day: 'Tue', lessons: ['CCNA', 'CCNA', '.....', '.....', '.....'], teachers: ['Mr. Hemn', 'Mr. Hemn', '...', '...', '...'], times: ['3:00 - Lab9', '4:00 - Lab9', '5:00 - ...', '6:00 - ...', '7:00 - ...'] },
+      { day: 'Wed', lessons: ['Linux LPI ', 'Linux LPI', '.....', 'CCNA', 'CCNA'], teachers: ['Ms. Binaey', 'Ms. Binaey', '...', 'Mr. Hemn', 'Mr. Hemn'], times: ['3:00 - Hall D10', '4:00 - Lab8', '5:00 - ...', '6:00 - Lab6', '7:00 - Lab6'] },
+      { day: 'Thu', lessons: ['کوردۆلۆجی', 'Wireles Technology', 'Linux LPI', '.....', '.....'], teachers: ['Ms. Sozyar', 'Ms. Lana', 'Ms. Binaey', '...', '...'], times: ['3:00 - Hall D10', '4:00 - Hall D10', '5:00 - Lab8', '6:00 - ...', '7:00 - ...'] }
+    ];
+
+    function renderLessons() {
+      const lessonTableBody = document.getElementById('lessonTableBody');
+      lessonTableBody.innerHTML = '';
+      lessons.forEach((lesson, index) => {
+        lesson.lessons.forEach((lessonName, i) => {
+          const row = document.createElement('tr');
+          if (i === 0) {
+            row.innerHTML = `
+              <td rowspan="5" class="lesson-day">${lesson.day}</td>
+              <td>${lesson.times[i]}</td>
+              <td>${lessonName}</td>
+              <td>${lesson.teachers[i]}</td> <!-- Display teacher -->
+            `;
+          } else {
+            row.innerHTML = `
+              <td>${lesson.times[i]}</td>
+              <td>${lessonName}</td>
+              <td>${lesson.teachers[i]}</td> <!-- Display teacher -->
+            `;
+          }
+          lessonTableBody.appendChild(row);
+        });
+      });
+    }
+    renderLessons();
+  </script>
+</body>
+</html>
